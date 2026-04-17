@@ -6,6 +6,10 @@ import {
   replacementCosts,
 } from "../constants/data";
 
+// Annual tier thresholds come from data.js so they stay in one place.
+// Residential: [6000, 12000, 18000] kWh/yr
+// Commercial:  [6000, 12000] kWh/yr
+
 export const calculateEnergyCosts = (formData) => {
   try {
     const {
@@ -131,37 +135,29 @@ const getBestEfficiency = (type) => {
 };
 
 const calculateElectricityCost = (totalKwh, propertyType) => {
-  const rates = electricityRates[propertyType] || electricityRates.residential;
-  let totalCost = 0;
+  const rates      = electricityRates[propertyType] || electricityRates.residential;
+  const thresholds = electricityRates[
+    propertyType === "commercial" ? "commercialThresholds" : "residentialThresholds"
+  ];
 
-  if (propertyType === "residential") {
-    if (totalKwh <= 2000) {
-      totalCost = totalKwh * rates.tier1;
-    } else if (totalKwh <= 4000) {
-      totalCost = 2000 * rates.tier1 + (totalKwh - 2000) * rates.tier2;
-    } else if (totalKwh <= 6000) {
-      totalCost =
-        2000 * rates.tier1 +
-        2000 * rates.tier2 +
-        (totalKwh - 4000) * rates.tier3;
-    } else {
-      totalCost =
-        2000 * rates.tier1 +
-        2000 * rates.tier2 +
-        2000 * rates.tier3 +
-        (totalKwh - 6000) * rates.tier4;
-    }
-  } else if (propertyType === "commercial") {
-    if (totalKwh <= 4000) {
-      totalCost = totalKwh * rates.tier1;
-    } else if (totalKwh <= 8000) {
-      totalCost = 4000 * rates.tier1 + (totalKwh - 4000) * rates.tier2;
-    } else {
-      totalCost =
-        4000 * rates.tier1 +
-        4000 * rates.tier2 +
-        (totalKwh - 8000) * rates.tier3;
-    }
+  // Generic tiered billing: iterate over SEC slab boundaries
+  const tierRates =
+    propertyType === "commercial"
+      ? [rates.tier1, rates.tier2, rates.tier3]
+      : [rates.tier1, rates.tier2, rates.tier3, rates.tier4];
+
+  let remaining  = totalKwh;
+  let totalCost  = 0;
+  let prevLimit  = 0;
+
+  for (let i = 0; i < tierRates.length; i++) {
+    const slabTop    = i < thresholds.length ? thresholds[i] : Infinity;
+    const slabSize   = Math.min(remaining, slabTop - prevLimit);
+    if (slabSize <= 0) break;
+    totalCost += slabSize * tierRates[i];
+    remaining -= slabSize;
+    prevLimit  = slabTop;
+    if (remaining <= 0) break;
   }
 
   return totalCost;

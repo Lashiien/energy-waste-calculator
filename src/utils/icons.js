@@ -35,6 +35,9 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import NaturePeopleIcon from "@mui/icons-material/NaturePeople";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import GroupIcon from "@mui/icons-material/Group";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export const Add = AddIcon;
 export const Remove = RemoveIcon;
@@ -72,3 +75,6 @@ export const TrendingUp = TrendingUpIcon;
 export const CheckCircleOutline = CheckCircleOutlineIcon;
 export const NaturePeople = NaturePeopleIcon;
 export const FlashOn = FlashOnIcon;
+export const EmojiEvents = EmojiEventsIcon;
+export const Group = GroupIcon;
+export const InfoOutlined = InfoOutlinedIcon;

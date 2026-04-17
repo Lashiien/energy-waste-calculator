@@ -25,7 +25,9 @@ import {
   CheckCircleOutline,
   PictureAsPdf,
   TrendingUp,
+  InfoOutlined,
 } from "../utils/icons";
+import { dataSources } from "../constants/data";
 import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -672,6 +674,41 @@ const ResultsDisplay = ({ calculationResults, onBack, onRestart }) => {
               </Typography>
             </Box>
           )}
+
+          {/* Data sources footnote */}
+          <Box
+            sx={{
+              mt: 2,
+              mb: 4,
+              p: 3,
+              borderRadius: 2,
+              border: "1px solid",
+              borderColor: "divider",
+              background: "#fafafa",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+              <InfoOutlined sx={{ fontSize: 18, color: "text.secondary" }} />
+              <Typography variant="caption" fontWeight={700} color="text.secondary" sx={{ textTransform: "uppercase", letterSpacing: 0.8 }}>
+                Methodology &amp; Sources
+              </Typography>
+            </Box>
+            {dataSources.map((s) => (
+              <Box key={s.label} sx={{ mb: 1 }}>
+                <Typography variant="caption" fontWeight={600} sx={{ display: "inline" }}>
+                  {s.label}:{" "}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {s.detail}
+                </Typography>
+              </Box>
+            ))}
+            <Typography variant="caption" color="text.disabled" sx={{ display: "block", mt: 1.5 }}>
+              Calculations use annual kWh totals split across SEC tiered slabs. Seasonal
+              weights are derived from GAMEP 30-year climate normals. Results are
+              estimates — actual savings depend on usage behaviour and local conditions.
+            </Typography>
+          </Box>
         </Box>
 
         {/* ── Actions (not captured in PDF snapshot) ──────────── */}
