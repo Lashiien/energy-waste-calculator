@@ -1,6 +1,6 @@
 # Saudi Home Energy Waste Calculator
 
-A web application that estimates how much Saudi households are overpaying on electricity due to inefficient appliances, and calculates the financial return on upgrading them. Built as a student engineering project in support of Saudi Arabia's Vision 2030 Energy Efficiency Initiative.
+A web application that estimates how much Saudi households are overpaying on electricity due to inefficient appliances, and calculates the financial return on upgrading them. Built as a class project for Fundamentals of Computer Systems.
 
 ---
 
@@ -158,20 +158,17 @@ Place your certificate image at `public/certificate.png`. The Recognition sectio
 
 ---
 
-## Competition Context
+## Project Context
 
-This project was submitted to **[Competition Name]** as part of **[University / Programme Name]**. The goal was to build a practical tool that quantifies energy waste in Saudi residential buildings and supports informed decision-making around appliance upgrades — directly aligned with Vision 2030 targets to reduce the Kingdom's energy intensity by 43% by 2030.
+This project was submitted as the final project for **Fundamentals of Computer Systems**. The goal was to build a practical tool that quantifies energy waste in Saudi residential buildings and supports informed decision-making around appliance upgrades.
 
 ---
 
 ## Contributors
 
-| Name                | Role                                  |
-|---------------------|---------------------------------------|
-| [Contributor Name]  | Project Lead & Full-Stack Development |
-| [Contributor Name]  | UI Design & Frontend                  |
-| [Contributor Name]  | Energy Research & Data Validation     |
-| [Advisor Name]      | Faculty Advisor                       |
+- Humza Raja
+- Ahmed Lashin
+- Ahmed Alghanmi
 
 ---
 

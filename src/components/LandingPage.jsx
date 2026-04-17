@@ -97,10 +97,9 @@ const IconRing = styled(Box, {
 
 // ── Contributors data — replace with real names ──────────────────────────────
 const contributors = [
-  { name: "Contributor Name",  role: "Project Lead & Developer",        initials: "01" },
-  { name: "Contributor Name",  role: "UI Design & Frontend",            initials: "02" },
-  { name: "Contributor Name",  role: "Energy Research & Data",          initials: "03" },
-  { name: "Advisor Name",      role: "Faculty Advisor",                 initials: "FA" },
+  { name: "Humza Raja",    role: "", initials: "HR" },
+  { name: "Ahmed Lashin",  role: "", initials: "AL" },
+  { name: "Ahmed Alghanmi", role: "", initials: "AA" },
 ];
 
 // ── Sources tooltip content ──────────────────────────────────────────────────
@@ -136,7 +135,7 @@ const LandingPage = ({ onStart }) => {
             {/* Left: copy */}
             <Grid item xs={12} md={7}>
               <Chip
-                label="Vision 2030 · Energy Efficiency Initiative"
+                label="Saudi Energy Efficiency · Residential Calculator"
                 size="small"
                 icon={
                   <FlashOn
@@ -404,9 +403,9 @@ const LandingPage = ({ onStart }) => {
               {
                 icon:   <NaturePeople sx={{ color: "#2e7d32" }} />,
                 iconBg: "rgba(46,125,50,0.1)",
-                title:  "Vision 2030 Makes Upgrades Viable",
+                title:  "Smarter Appliances Pay for Themselves",
                 body:
-                  "Saudi Arabia's energy-efficiency roadmap targets a 43% reduction in consumption by 2030. Inverter ACs and solar water heaters now have short enough payback periods — typically 2–4 years — to make financial sense.",
+                  "Inverter ACs and solar water heaters now have short enough payback periods — typically 2–4 years — to make the upgrade financially worthwhile for most Saudi households.",
                 accent: "#2e7d32",
               },
             ].map((card) => (
@@ -538,7 +537,7 @@ const LandingPage = ({ onStart }) => {
               Recognition
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              This project was submitted as part of a student engineering competition.
+              Submitted for Fundamentals of Computer Systems — class project.
             </Typography>
           </Box>
 
@@ -596,7 +595,7 @@ const LandingPage = ({ onStart }) => {
             textAlign="center"
             sx={{ mt: 2, fontStyle: "italic" }}
           >
-            Award — [Competition Name]
+            Fundamentals of Computer Systems — Class Project
           </Typography>
         </Container>
       </Box>
@@ -664,12 +663,14 @@ const LandingPage = ({ onStart }) => {
                       {c.initials}
                     </Typography>
                   </Box>
-                  <Typography variant="body1" fontWeight={700} gutterBottom>
+                  <Typography variant="body1" fontWeight={700} sx={{ mb: c.role ? 0.5 : 0 }}>
                     {c.name}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary" lineHeight={1.5}>
-                    {c.role}
-                  </Typography>
+                  {c.role && (
+                    <Typography variant="caption" color="text.secondary" lineHeight={1.5}>
+                      {c.role}
+                    </Typography>
+                  )}
                 </Paper>
               </Grid>
             ))}
@@ -698,8 +699,8 @@ const LandingPage = ({ onStart }) => {
             }}
           >
             <Typography variant="caption" color="text.disabled" textAlign="center">
-              Built in support of Vision 2030 · Saudi Energy Efficiency Program (SEEP) ·
-              Rates based on SEC published residential tariffs
+              Rates based on SEC published residential tariffs ·
+              Fundamentals of Computer Systems — Class Project
             </Typography>
             <Tooltip
               title={<SourcesTooltip />}
