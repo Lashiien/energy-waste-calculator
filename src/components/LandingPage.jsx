@@ -7,6 +7,7 @@ import {
   Grid,
   Tooltip,
 } from "@mui/material";
+
 import { ArrowForward, EmojiEvents, InfoOutlined } from "../utils/icons";
 import { dataSources } from "../constants/data";
 
@@ -79,83 +80,6 @@ const LandingPage = ({ onStart }) => {
           <Typography variant="caption" color="text.disabled" sx={{ display: "block", mt: 2 }}>
             No account needed · 3 minutes
           </Typography>
-        </Container>
-      </Box>
-
-      {/* ── HOW IT WORKS ─────────────────────────────────────────── */}
-      <Box sx={{ py: { xs: 8, md: 12 }, borderBottom: "1px solid", borderColor: "divider" }}>
-        <Container maxWidth="md">
-          <Typography variant="overline" color="text.disabled" sx={{ display: "block", mb: 4, letterSpacing: 2 }}>
-            How it works
-          </Typography>
-          <Grid container spacing={6}>
-            {[
-              {
-                num:  "01",
-                title: "Pick your city",
-                body:  "Riyadh, Jeddah, Dammam, or Mecca. Seasonal usage defaults adjust automatically.",
-              },
-              {
-                num:  "02",
-                title: "Enter your appliances",
-                body:  "How many ACs, fridges, and water heaters — and roughly how old they are.",
-              },
-              {
-                num:  "03",
-                title: "Read your report",
-                body:  "Annual cost, savings potential, payback period, carbon reduction. Exportable as PDF.",
-              },
-            ].map((s) => (
-              <Grid item xs={12} sm={4} key={s.num}>
-                <Typography
-                  variant="h3"
-                  sx={{ fontWeight: 800, color: "#f0f0f0", lineHeight: 1, mb: 1.5, fontSize: "3rem" }}
-                >
-                  {s.num}
-                </Typography>
-                <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-                  {s.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" lineHeight={1.7}>
-                  {s.body}
-                </Typography>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* ── CONTEXT ──────────────────────────────────────────────── */}
-      <Box sx={{ py: { xs: 8, md: 12 }, borderBottom: "1px solid", borderColor: "divider" }}>
-        <Container maxWidth="md">
-          <Typography variant="overline" color="text.disabled" sx={{ display: "block", mb: 4, letterSpacing: 2 }}>
-            Why this matters
-          </Typography>
-          <Grid container spacing={6}>
-            {[
-              {
-                title: "Extreme summers",
-                body:  "Riyadh hits 45 °C for six months. An old non-inverter AC draws 2 kW — roughly twice what a modern inverter split needs for the same cooling.",
-              },
-              {
-                title: "Tiered billing",
-                body:  "SEC's four-tier structure charges 0.38 SAR/kWh at the top slab — more than double the entry rate. Every kWh you cut saves at the highest rate you've reached.",
-              },
-              {
-                title: "Short payback",
-                body:  "Inverter ACs and solar water heaters typically pay for themselves in 2–4 years under Saudi usage patterns.",
-              },
-            ].map((c) => (
-              <Grid item xs={12} sm={4} key={c.title}>
-                <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-                  {c.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" lineHeight={1.7}>
-                  {c.body}
-                </Typography>
-              </Grid>
-            ))}
-          </Grid>
         </Container>
       </Box>
 
