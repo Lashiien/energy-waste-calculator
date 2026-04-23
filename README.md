@@ -2,7 +2,7 @@
 
 A tool for Saudi residents to estimate their current electricity waste and potential savings from upgrading to efficient appliances. Uses real SEC tariff rates (Royal Decree M/169), Saudi regional climate data, and appliance efficiency figures from SEEC and the IEA.
 
-**Live demo:** [TO BE FILLED AFTER DEPLOYMENT]
+**Live demo:**  https://energy-waste-calculator-jse6.vercel.app/
 
 ## What it does
 
