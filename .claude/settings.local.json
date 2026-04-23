@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall *)",
+      "Bash(grep -rn \"{ Home\\\\|, Home\\\\|Home }\" src/App.jsx src/components/)",
+      "Bash(grep -v \"icons.js\" grep -rn \"{ Info\\\\b\\\\|, Info\\\\b\\\\|Info }\" src/App.jsx src/components/)"
+    ]
+  }
+}

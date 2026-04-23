@@ -109,13 +109,6 @@ export const replacementCosts = {
   waterHeater: { new: 1800, solar:    5500 },
 };
 
-// Kept for backward compatibility — prefer regions[x].seasons
-export const seasons = {
-  summer:   6,
-  winter:   3,
-  shoulder: 3,
-};
-
 // ── Carbon emission factor ────────────────────────────────────────────────────
 // 0.7 kg CO₂/kWh — Saudi national grid emission factor.
 // Source: King Abdullah City for Atomic and Renewable Energy (KACARE) /
