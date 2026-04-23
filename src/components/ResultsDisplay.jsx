@@ -138,6 +138,14 @@ const savingsBracketPlugin = {
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
+const CHART_COLORS = [
+  '#1976d2', '#388e3c', '#f57c00', '#7b1fa2',
+  '#c62828', '#00838f', '#5d4037', '#455a64',
+  '#ef6c00', '#2e7d32', '#6a1b9a', '#ad1457',
+];
+
+const getChartColor = (index) => CHART_COLORS[index % CHART_COLORS.length];
+
 const fmt = (n) => `SR ${Math.round(Math.max(0, n)).toLocaleString()}`;
 
 const fmtPayback = (breakEvenMonths) => {
@@ -299,7 +307,7 @@ const ResultsDisplay = ({ calculationResults, onBack, onRestart }) => {
       {
         label:           "Annual Savings (SR)",
         data:            actionItems.map((a) => Math.round(Math.max(0, a.savings))),
-        backgroundColor: ["#2e7d32", "#43a047", "#66bb6a", "#81c784"],
+        backgroundColor: actionItems.map((_, i) => getChartColor(i)),
         borderRadius:    6,
         barThickness:    28,
       },
