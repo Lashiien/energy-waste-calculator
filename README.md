@@ -65,7 +65,11 @@ Commercial tariff uses a three-slab structure (0.26 / 0.32 / 0.40 SAR/kWh at the
 
 The calculator applies each slab boundary sequentially to the total annual kWh, so savings are always valued at the marginal (highest) rate reached — accurately reflecting the true financial impact of load reduction.
 
-### Step 4 — Carbon savings
+### Step 4 — VAT
+
+All bill figures are inclusive of the standard 15% Saudi VAT applied to residential electricity consumption.
+
+### Step 5 — Carbon savings
 
 ```
 CO₂_saved_kg = energy_saved_kWh × 0.7
@@ -74,7 +78,7 @@ CO₂_saved_kg = energy_saved_kWh × 0.7
 Emission factor: **0.7 kg CO₂/kWh** — Saudi national grid intensity.  
 Source: KACARE (King Abdullah City for Atomic and Renewable Energy); cross-checked with IPCC AR6 Annex II country data (2021).
 
-### Step 5 — Payback period
+### Step 6 — Payback period
 
 ```
 payback_years = total_upgrade_cost_SAR / annual_cost_savings_SAR

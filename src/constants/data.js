@@ -109,6 +109,9 @@ export const replacementCosts = {
   waterHeater: { new: 1800, solar:    5500 },
 };
 
+// Saudi VAT applied to electricity bills (Royal Decree, current rate 15%)
+export const VAT_RATE = 0.15;
+
 // ── Carbon emission factor ────────────────────────────────────────────────────
 // 0.7 kg CO₂/kWh — Saudi national grid emission factor.
 // Source: King Abdullah City for Atomic and Renewable Energy (KACARE) /

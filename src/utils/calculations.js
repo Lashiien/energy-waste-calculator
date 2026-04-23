@@ -4,6 +4,7 @@ import {
   regions,
   carbonFactor,
   replacementCosts,
+  VAT_RATE,
 } from "../constants/data";
 
 // Annual tier thresholds come from data.js so they stay in one place.
@@ -146,21 +147,22 @@ const calculateElectricityCost = (totalKwh, propertyType) => {
       ? [rates.tier1, rates.tier2, rates.tier3]
       : [rates.tier1, rates.tier2, rates.tier3, rates.tier4];
 
-  let remaining  = totalKwh;
-  let totalCost  = 0;
-  let prevLimit  = 0;
+  let remaining = totalKwh;
+  let subtotal  = 0;
+  let prevLimit = 0;
 
   for (let i = 0; i < tierRates.length; i++) {
-    const slabTop    = i < thresholds.length ? thresholds[i] : Infinity;
-    const slabSize   = Math.min(remaining, slabTop - prevLimit);
+    const slabTop  = i < thresholds.length ? thresholds[i] : Infinity;
+    const slabSize = Math.min(remaining, slabTop - prevLimit);
     if (slabSize <= 0) break;
-    totalCost += slabSize * tierRates[i];
+    subtotal  += slabSize * tierRates[i];
     remaining -= slabSize;
     prevLimit  = slabTop;
     if (remaining <= 0) break;
   }
 
-  return totalCost;
+  // 15% VAT per Royal Decree, applied to final bill
+  return subtotal * (1 + VAT_RATE);
 };
 
 const calculateUpgradeCosts = (appliances) => {
