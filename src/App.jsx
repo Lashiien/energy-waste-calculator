@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState, useCallback, startTransition, Component } from "react";
 import {
   ThemeProvider,
   createTheme,
@@ -125,7 +125,6 @@ const defaultFormData = {
   propertyType: "residential",
   region: "riyadh",
   homeSize: "medium",
-  roomCount: 4,
   appliances: [
     { type: "AC", count: 1, age: "old" },
     { type: "fridge", count: 1, age: "old" },
@@ -149,87 +148,86 @@ function App() {
   const [isCalculating, setIsCalculating]       = useState(false);
   const [calcError, setCalcError]               = useState(null);
 
-  const handleFormDataChange = (newData) => {
+  const handleFormDataChange = useCallback((newData) => {
     setFormData((prev) => ({ ...prev, ...newData }));
-  };
+  }, []);
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = () => {
     setIsCalculating(true);
     setCalcError(null);
 
-    // Defer to next tick so the loading spinner renders
-    await new Promise((r) => setTimeout(r, 60));
-
-    try {
-      const safeData = {
-        ...formData,
-        appliances:    formData.appliances    || [],
-        usagePatterns: formData.usagePatterns || {},
-      };
-
-      const processedData = {
-        propertyType: safeData.propertyType || "residential",
-        region:       safeData.region       || "riyadh",
-        homeSize:     safeData.homeSize      || "medium",
-        appliances: safeData.appliances.map((appliance) => ({
-          ...appliance,
-        })),
-        usagePatterns: safeData.usagePatterns,
-      };
-
-      const results = calculateEnergyCosts(processedData);
-
-      const applianceResults = processedData.appliances.map((appliance) => {
-        const savingInfo = results.applianceSavings.find(
-          (s) => s.type === appliance.type && s.currentAge === appliance.age
-        );
-        return {
-          name: getApplianceName(appliance.type),
-          count: appliance.count,
-          age: appliance.age,
-          savings: savingInfo ? savingInfo.costSaved : 0,
-          carbonReduction: savingInfo ? savingInfo.energySaved * 0.7 : 0,
-          breakEvenMonths: savingInfo ? savingInfo.paybackPeriod * 12 : 0,
+    startTransition(() => {
+      try {
+        const safeData = {
+          ...formData,
+          appliances:    formData.appliances    || [],
+          usagePatterns: formData.usagePatterns || {},
         };
-      });
 
-      const actionItems = results.applianceSavings
-        .map((s) => ({
-          name:            getApplianceName(s.type),
-          savings:         s.costSaved,
-          replacementCost: s.upgradeCost,
-          rebate:          0,
-          breakEvenMonths: s.paybackPeriod * 12,
-          carbonReduction: s.energySaved * 0.7,
-          fiveYearSavings: s.costSaved * 5 - s.upgradeCost,
-        }))
-        .sort((a, b) => b.savings - a.savings);
+        const processedData = {
+          propertyType: safeData.propertyType || "residential",
+          region:       safeData.region       || "riyadh",
+          homeSize:     safeData.homeSize      || "medium",
+          appliances: safeData.appliances.map((appliance) => ({
+            ...appliance,
+          })),
+          usagePatterns: safeData.usagePatterns,
+        };
 
-      setCalculationResults({
-        applianceResults,
-        totalCurrentCost:      results.currentCost,
-        totalPotentialSavings: results.costSavings,
-        totalReplacementCost:  results.upgradeCosts,
-        totalCarbonReduction:  results.carbonSavings,
-        actionItems,
-        projections: {
-          initialInvestment: results.upgradeCosts,
-          yearlySavings:     results.costSavings,
-          fiveYearNetSavings: results.costSavings * 5 - results.upgradeCosts,
-          breakEvenYear:      results.paybackPeriod,
-          yearlyLabels: ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"],
-          cumulativeSavingsData: [1, 2, 3, 4, 5].map(
-            (yr) => results.costSavings * yr - results.upgradeCosts
-          ),
-        },
-      });
-      setCurrentStep("results");
-    } catch (error) {
-      console.error("Calculation error:", error);
-      setCalcError(error.message || "Calculation failed. Please check your inputs.");
-    } finally {
-      setIsCalculating(false);
-    }
+        const results = calculateEnergyCosts(processedData);
+
+        const applianceResults = processedData.appliances.map((appliance) => {
+          const savingInfo = results.applianceSavings.find(
+            (s) => s.type === appliance.type && s.currentAge === appliance.age
+          );
+          return {
+            name: getApplianceName(appliance.type),
+            count: appliance.count,
+            age: appliance.age,
+            savings: savingInfo ? savingInfo.costSaved : 0,
+            carbonReduction: savingInfo ? savingInfo.energySaved * 0.7 : 0,
+            breakEvenMonths: savingInfo ? savingInfo.paybackPeriod * 12 : 0,
+          };
+        });
+
+        const actionItems = results.applianceSavings
+          .map((s) => ({
+            name:            getApplianceName(s.type),
+            savings:         s.costSaved,
+            replacementCost: s.upgradeCost,
+            rebate:          0,
+            breakEvenMonths: s.paybackPeriod * 12,
+            carbonReduction: s.energySaved * 0.7,
+            fiveYearSavings: s.costSaved * 5 - s.upgradeCost,
+          }))
+          .sort((a, b) => b.savings - a.savings);
+
+        setCalculationResults({
+          applianceResults,
+          totalCurrentCost:      results.currentCost,
+          totalPotentialSavings: results.costSavings,
+          totalReplacementCost:  results.upgradeCosts,
+          totalCarbonReduction:  results.carbonSavings,
+          actionItems,
+          projections: {
+            initialInvestment: results.upgradeCosts,
+            yearlySavings:     results.costSavings,
+            fiveYearNetSavings: results.costSavings * 5 - results.upgradeCosts,
+            breakEvenYear:      results.paybackPeriod,
+            yearlyLabels: ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"],
+            cumulativeSavingsData: [1, 2, 3, 4, 5].map(
+              (yr) => results.costSavings * yr - results.upgradeCosts
+            ),
+          },
+        });
+        setCurrentStep("results");
+      } catch (error) {
+        console.error("Calculation error:", error);
+        setCalcError(error.message || "Calculation failed. Please check your inputs.");
+      } finally {
+        setIsCalculating(false);
+      }
+    });
   };
 
   const getApplianceName = (type) =>

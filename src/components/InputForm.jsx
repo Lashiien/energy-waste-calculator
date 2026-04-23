@@ -20,6 +20,7 @@ import {
   Tooltip,
   Alert,
   Chip,
+  FormHelperText,
 } from "@mui/material";
 import {
   Add as AddIcon,
@@ -56,11 +57,9 @@ const InputForm = ({ formData, onDataChange, onSubmit, onBack, calcError }) => {
           { type: "fridge",      count: d.fridge,      age: "old" },
           { type: "waterHeater", count: d.waterHeater, age: "old" },
         ],
-        roomCount: Math.max(d.AC, 4),
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData.homeSize]);
+  }, [formData.homeSize, formData.appliances.length, onDataChange]);
 
   // When region changes, update usage defaults to match regional climate
   const handleRegionChange = (e) => {
@@ -82,6 +81,12 @@ const InputForm = ({ formData, onDataChange, onSubmit, onBack, calcError }) => {
 
   const validateStep = () => {
     const errors = {};
+
+    if (activeStep === 0) {
+      if (!formData.region) errors._alert = "Please select a city / region.";
+      else if (!formData.homeSize) errors._alert = "Please select a home size.";
+    }
+
     if (activeStep === 1) {
       formData.appliances.forEach((a, i) => {
         if (!Number.isInteger(a.count) || a.count < 1 || a.count > 20) {
@@ -89,6 +94,25 @@ const InputForm = ({ formData, onDataChange, onSubmit, onBack, calcError }) => {
         }
       });
     }
+
+    if (activeStep === 2) {
+      const p = formData.usagePatterns;
+      const fields = [
+        { key: "acSummerHours",              label: "AC — Summer" },
+        { key: "acWinterHours",              label: "AC — Winter" },
+        { key: "waterHeaterWinterHours",     label: "Water Heater — Winter" },
+        { key: "waterHeaterSummerHours",     label: "Water Heater — Summer" },
+        { key: "fridgeHoursPerDay",          label: "Fridge — daily run time" },
+      ];
+      for (const { key, label } of fields) {
+        const v = Number(p[key]);
+        if (!Number.isFinite(v) || v < 1 || v > 24) {
+          errors._alert = `${label}: must be between 1 and 24 hours.`;
+          break;
+        }
+      }
+    }
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -241,6 +265,9 @@ const InputForm = ({ formData, onDataChange, onSubmit, onBack, calcError }) => {
                 </MenuItem>
               ))}
             </Select>
+            <FormHelperText>
+              This only sets default appliance counts. Adjust individual appliances on the next step for a precise estimate.
+            </FormHelperText>
           </FormControl>
         </Grid>
       </Grid>
@@ -354,6 +381,11 @@ const InputForm = ({ formData, onDataChange, onSubmit, onBack, calcError }) => {
                       size="small"
                       onClick={() => handleRemoveAppliance(index)}
                       disabled={formData.appliances.length <= 1}
+                      aria-label={`Remove ${
+                        appliance.type === "AC"          ? "air conditioner" :
+                        appliance.type === "fridge"      ? "refrigerator" :
+                        "water heater"
+                      }`}
                     >
                       <RemoveIcon />
                     </IconButton>
@@ -537,6 +569,12 @@ const InputForm = ({ formData, onDataChange, onSubmit, onBack, calcError }) => {
             {calcError && (
               <Alert severity="error" sx={{ mb: 3 }}>
                 {calcError}
+              </Alert>
+            )}
+
+            {validationErrors._alert && (
+              <Alert severity="error" sx={{ mb: 3 }}>
+                {validationErrors._alert}
               </Alert>
             )}
 

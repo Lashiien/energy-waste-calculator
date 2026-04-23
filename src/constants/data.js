@@ -109,12 +109,8 @@ export const replacementCosts = {
   waterHeater: { new: 1800, solar:    5500 },
 };
 
-// Kept for backward compatibility — prefer regions[x].seasons
-export const seasons = {
-  summer:   6,
-  winter:   3,
-  shoulder: 3,
-};
+// Saudi VAT applied to electricity bills (Royal Decree, current rate 15%)
+export const VAT_RATE = 0.15;
 
 // ── Carbon emission factor ────────────────────────────────────────────────────
 // 0.7 kg CO₂/kWh — Saudi national grid emission factor.

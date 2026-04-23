@@ -1,18 +1,36 @@
-# Saudi Home Energy Waste Calculator
+# Saudi Household Energy Waste Calculator
 
-A web application that estimates how much Saudi households are overpaying on electricity due to inefficient appliances, and calculates the financial return on upgrading them. Built as a class project for Fundamentals of Computer Systems.
+A tool for Saudi residents to estimate their current electricity waste and potential savings from upgrading to efficient appliances. Uses real SEC tariff rates (Royal Decree M/169), Saudi regional climate data, and appliance efficiency figures from SEEC and the IEA.
 
----
+**Live demo:**  https://energy-waste-calculator-jse6.vercel.app/
 
-## What It Does
+## What it does
 
-Users enter their city (Riyadh, Jeddah, Dammam, or Mecca), property type, home size, and the age/efficiency of their major appliances. The calculator:
+1. You enter your city, home size, and appliance details (ACs, fridge, water heater — age, efficiency, usage hours).
+2. It calculates your annual electricity bill using Saudi's tiered residential tariff plus 15% VAT.
+3. It calculates what you'd pay with high-efficiency replacements.
+4. It shows payback period, 5-year savings projection, and an exportable PDF report.
 
-1. Estimates **current annual electricity consumption** (kWh) for air conditioners, refrigerators, and water heaters — split across summer, shoulder, and winter seasons using real climate data.
-2. Estimates **post-upgrade consumption** assuming the most efficient available technology (inverter AC, modern fridge, solar water heater).
-3. Computes **cost savings** by applying Saudi Electricity Company (SEC) tiered tariff rates to both scenarios.
-4. Returns **payback period**, **5-year net savings**, and **CO₂ reduction**.
-5. Generates an exportable **PDF report** via html2canvas + jsPDF.
+## Running locally
+
+    npm install
+    npm start
+
+## Running tests
+
+    npm run test:ci
+
+## Building for production
+
+    npm run build
+
+## Tech stack
+
+React 18, MUI v5, Chart.js, jsPDF. Built with Create React App.
+
+## Scope and limitations
+
+This tool models air conditioning, refrigeration, and water heating — which together account for the majority of a typical Saudi household's electricity use. It does not currently model lighting, cooking, laundry, or solar generation. See the Methodology section below for full data sources and assumptions.
 
 ---
 
@@ -65,7 +83,11 @@ Commercial tariff uses a three-slab structure (0.26 / 0.32 / 0.40 SAR/kWh at the
 
 The calculator applies each slab boundary sequentially to the total annual kWh, so savings are always valued at the marginal (highest) rate reached — accurately reflecting the true financial impact of load reduction.
 
-### Step 4 — Carbon savings
+### Step 4 — VAT
+
+All bill figures are inclusive of the standard 15% Saudi VAT applied to residential electricity consumption.
+
+### Step 5 — Carbon savings
 
 ```
 CO₂_saved_kg = energy_saved_kWh × 0.7
@@ -74,7 +96,7 @@ CO₂_saved_kg = energy_saved_kWh × 0.7
 Emission factor: **0.7 kg CO₂/kWh** — Saudi national grid intensity.  
 Source: KACARE (King Abdullah City for Atomic and Renewable Energy); cross-checked with IPCC AR6 Annex II country data (2021).
 
-### Step 5 — Payback period
+### Step 6 — Payback period
 
 ```
 payback_years = total_upgrade_cost_SAR / annual_cost_savings_SAR
