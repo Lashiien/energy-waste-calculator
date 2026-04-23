@@ -88,7 +88,7 @@ const calculatePotentialUsage = (appliances, usagePatterns, region) => {
   return totalUsage;
 };
 
-const getYearlyHours = (type, usagePatterns, region = "riyadh") => {
+export const getYearlyHours = (type, usagePatterns, region = "riyadh") => {
   const regionData = regions[region] || regions.riyadh;
   const {
     seasons: s,
@@ -135,7 +135,7 @@ const getBestEfficiency = (type) => {
   }
 };
 
-const calculateElectricityCost = (totalKwh, propertyType) => {
+export const calculateElectricityCost = (totalKwh, propertyType) => {
   const rates      = electricityRates[propertyType] || electricityRates.residential;
   const thresholds = electricityRates[
     propertyType === "commercial" ? "commercialThresholds" : "residentialThresholds"
@@ -175,7 +175,7 @@ const calculateUpgradeCosts = (appliances) => {
   return totalCost;
 };
 
-const calculateApplianceSavings = (
+export const calculateApplianceSavings = (
   appliances,
   usagePatterns,
   region,
